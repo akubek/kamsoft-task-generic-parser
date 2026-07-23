@@ -99,6 +99,7 @@ public class ParseContentEndpointIntegrationTests : IClassFixture<WebApplication
     [Fact]
     public async Task ParseContent_WhenPayloadTypeIsUnsupported_ShouldReturnBadRequest()
     {
+        // This exercises endpoint -> factory path with a value outside the supported enum set.
         var requestBody = "{\"type\":999,\"content\":\"" + EncodeBase64("Id,Name\\n1,Artur") + "\"}";
         using var content = new StringContent(requestBody, Encoding.UTF8, "application/json");
 

@@ -70,6 +70,7 @@ public class CsvLaxParserTests
         Assert.Single(result);
         var firstItem = (IDictionary<string, object>)result[0];
         Assert.Equal("1", firstItem["Id"]);
+        // Missing field in lax mode maps to null, unlike an explicit empty value.
         Assert.Null(firstItem["Name"]);
     }
 
@@ -96,6 +97,7 @@ public class CsvLaxParserTests
         Assert.Single(result);
         var firstItem = (IDictionary<string, object>)result[0];
         Assert.Equal("1", firstItem["Id"]);
+        // Existing column with no characters maps to empty string.
         Assert.Equal(string.Empty, firstItem["Name"]);
     }
 

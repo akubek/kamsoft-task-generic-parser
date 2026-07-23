@@ -5,12 +5,22 @@ using GenericDataParser.Api.Models;
 
 namespace GenericDataParser.Api.Services;
 
+/// <summary>
+/// Parses CSV payloads into a list of dynamic objects.
+/// </summary>
 public class CsvParser : IDataParser
 {
     private readonly CsvConfiguration _config;
     private readonly CsvParserMode _mode;
+    /// <summary>
+    /// Gets the payload type supported by this parser.
+    /// </summary>
     public PayloadType SupportedType => PayloadType.CSV;
 
+    /// <summary>
+    /// Initializes a new CSV parser with the selected validation mode.
+    /// </summary>
+    /// <param name="mode">CSV parsing mode (strict or lax).</param>
     public CsvParser(CsvParserMode mode = CsvParserMode.Strict)
     {
         _mode = mode;
@@ -22,6 +32,13 @@ public class CsvParser : IDataParser
         }
     }
 
+    /// <summary>
+    /// Parses CSV content and returns records as objects.
+    /// </summary>
+    /// <param name="rawContent">Decoded CSV text content.</param>
+    /// <returns>Parsed records represented as objects.</returns>
+    /// <exception cref="ArgumentException">Thrown when the content is null, empty, or whitespace.</exception>
+    /// <exception cref="CsvHelperException">Thrown when CSV content is invalid.</exception>
     public IEnumerable<object> Parse(string rawContent)
     {
         if (string.IsNullOrWhiteSpace(rawContent))
