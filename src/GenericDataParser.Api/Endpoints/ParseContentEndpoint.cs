@@ -4,6 +4,8 @@ using CsvHelper;
 using GenericDataParser.Api.Models;
 using GenericDataParser.Api.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.OpenApi.Any;
+using Microsoft.OpenApi.Models;
 
 namespace GenericDataParser.Api.Endpoints;
 
@@ -24,7 +26,18 @@ public static class ParseContentEndpoint
             .WithDescription("Accepts application/json with payload type and Base64 content, decodes the content, parses it, and returns normalized JSON.")
             .Produces<ParseResultResponse>(StatusCodes.Status200OK)
             .ProducesProblem(StatusCodes.Status400BadRequest)
-            .ProducesProblem(StatusCodes.Status500InternalServerError);
+            .ProducesProblem(StatusCodes.Status500InternalServerError)
+            .WithOpenApi(operation =>
+            {
+                operation.RequestBody ??= new OpenApiRequestBody();
+
+                if (operation.RequestBody.Content.TryGetValue("application/json", out var mediaType))
+                {
+                    mediaType.Examples = CreateRequestExamples();
+                }
+
+                return operation;
+            });
     }
 
     private static IResult HandleAsync(
@@ -97,5 +110,48 @@ public static class ParseContentEndpoint
                 Status = StatusCodes.Status400BadRequest
             });
         }
+    }
+
+    private static Dictionary<string, OpenApiExample> CreateRequestExamples()
+    {
+        return new Dictionary<string, OpenApiExample>
+        {
+            ["CSV - valid"] = new OpenApiExample
+            {
+                Summary = "Valid CSV payload",
+                Value = new OpenApiObject
+                {
+                    ["type"] = new OpenApiString("CSV"),
+                    ["content"] = new OpenApiString("SWQsTmFtZQoxLEFydHVyCjIsVGVzdA==")
+                }
+            },
+            ["CSV - invalid"] = new OpenApiExample
+            {
+                Summary = "CSV payload with duplicate headers",
+                Value = new OpenApiObject
+                {
+                    ["type"] = new OpenApiString("CSV"),
+                    ["content"] = new OpenApiString("SWQsSWQKMSwy")
+                }
+            },
+            ["INTERNAL_JSON - valid"] = new OpenApiExample
+            {
+                Summary = "Valid INTERNAL_JSON payload",
+                Value = new OpenApiObject
+                {
+                    ["type"] = new OpenApiString("INTERNAL_JSON"),
+                    ["content"] = new OpenApiString("W3siSWQiOjEsIkF1dGhvciI6IkFydHVyIn1d")
+                }
+            },
+            ["INTERNAL_JSON - invalid"] = new OpenApiExample
+            {
+                Summary = "INTERNAL_JSON payload with malformed JSON after decoding",
+                Value = new OpenApiObject
+                {
+                    ["type"] = new OpenApiString("INTERNAL_JSON"),
+                    ["content"] = new OpenApiString("eyJJZCI6MSwiQXV0aG9yIjoiQXJ0dXIi")
+                }
+            }
+        };
     }
 }

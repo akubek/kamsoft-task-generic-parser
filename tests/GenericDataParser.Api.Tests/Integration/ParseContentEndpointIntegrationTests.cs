@@ -197,6 +197,29 @@ public class ParseContentEndpointIntegrationTests : IClassFixture<WebApplication
         Assert.Equal("Parses Base64-encoded CSV or INTERNAL_JSON payloads.", postOperation.GetProperty("summary").GetString());
     }
 
+    [Fact]
+    public async Task SwaggerJson_ShouldExposeRequestExamplesForCsvAndJson()
+    {
+        var response = await _client.GetAsync("/swagger/v1/swagger.json");
+
+        Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+
+        using var swaggerJson = await JsonDocument.ParseAsync(await response.Content.ReadAsStreamAsync());
+        var examples = swaggerJson.RootElement
+            .GetProperty("paths")
+            .GetProperty("/api/v1/parse-content")
+            .GetProperty("post")
+            .GetProperty("requestBody")
+            .GetProperty("content")
+            .GetProperty("application/json")
+            .GetProperty("examples");
+
+        Assert.True(examples.TryGetProperty("CSV - valid", out _));
+        Assert.True(examples.TryGetProperty("CSV - invalid", out _));
+        Assert.True(examples.TryGetProperty("INTERNAL_JSON - valid", out _));
+        Assert.True(examples.TryGetProperty("INTERNAL_JSON - invalid", out _));
+    }
+
     private static string EncodeBase64(string content)
     {
         return Convert.ToBase64String(Encoding.UTF8.GetBytes(content));

@@ -43,6 +43,7 @@ Przykładowa odpowiedź sukcesu:
 
 - Swagger jest dostępny pod `/swagger`.
 - Endpoint ma opis w Swagger UI, więc można szybko sprawdzić request i response.
+- W Swaggerze dostępne są przykładowe payloady dla CSV i INTERNAL_JSON, w wariantach poprawnych i błędnych.
 - Nieprzewidziane wyjątki są obsługiwane globalnie i zwracane jako `ProblemDetails`.
 - Błędy wejścia są logowane jako ostrzeżenia, co ułatwia diagnozowanie problemów z Base64, CSV, JSON i typem payloadu.
 
