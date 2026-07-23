@@ -2,4 +2,4 @@
 
 ## Requirements
 
-    - **.NET 8 SDK**.
+- **.NET 8 SDK**.
