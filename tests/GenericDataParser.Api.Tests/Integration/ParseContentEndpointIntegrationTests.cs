@@ -182,6 +182,21 @@ public class ParseContentEndpointIntegrationTests : IClassFixture<WebApplication
         Assert.Equal(HttpStatusCode.UnsupportedMediaType, response.StatusCode);
     }
 
+    [Fact]
+    public async Task SwaggerJson_ShouldExposeParseContentEndpoint()
+    {
+        var response = await _client.GetAsync("/swagger/v1/swagger.json");
+
+        Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+
+        using var swaggerJson = await JsonDocument.ParseAsync(await response.Content.ReadAsStreamAsync());
+        var root = swaggerJson.RootElement;
+
+        Assert.True(root.GetProperty("paths").TryGetProperty("/api/v1/parse-content", out var path));
+        Assert.True(path.TryGetProperty("post", out var postOperation));
+        Assert.Equal("Parses Base64-encoded CSV or INTERNAL_JSON payloads.", postOperation.GetProperty("summary").GetString());
+    }
+
     private static string EncodeBase64(string content)
     {
         return Convert.ToBase64String(Encoding.UTF8.GetBytes(content));

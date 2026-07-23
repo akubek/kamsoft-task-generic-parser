@@ -74,15 +74,17 @@ dotnet restore
 dotnet run --project src/GenericDataParser.Api
 ```
 
-Domyślny adres lokalny jest wypisywany przez Kestrel po starcie aplikacji.
+Domyślny adres lokalny jest wypisywany przez Kestrel po starcie aplikacji. W przykładzie poniżej użyto `http://localhost:5087`.
 
 Przykład requestu `curl`:
 
 ```bash
-curl -X POST "http://localhost:5000/api/v1/parse-content" \
+curl -X POST "http://localhost:5087/api/v1/parse-content" \
     -H "Content-Type: application/json" \
     -d '{"type":"CSV","content":"SWQsTmFtZQoxLEFydHVyCjIsVGVzdA=="}'
 ```
+
+Port `5087` należy zastąpić rzeczywistym portem wypisanym przez Kestrel w konsoli po starcie aplikacji.
 
 ## Testy
 
