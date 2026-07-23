@@ -7,6 +7,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{DFFF8484-EA8
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GenericDataParser.Api", "src\GenericDataParser.Api\GenericDataParser.Api.csproj", "{A3C5B2D8-E5D6-4FA4-B850-3C4F1AE116FA}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{9330F00A-551B-4FCE-A829-69A45173FC16}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GenericDataParser.Api.Tests", "tests\GenericDataParser.Api.Tests\GenericDataParser.Api.Tests.csproj", "{C500B3E2-57C8-4342-AB46-833810A52E41}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -20,8 +24,13 @@ Global
 		{A3C5B2D8-E5D6-4FA4-B850-3C4F1AE116FA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A3C5B2D8-E5D6-4FA4-B850-3C4F1AE116FA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A3C5B2D8-E5D6-4FA4-B850-3C4F1AE116FA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C500B3E2-57C8-4342-AB46-833810A52E41}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C500B3E2-57C8-4342-AB46-833810A52E41}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C500B3E2-57C8-4342-AB46-833810A52E41}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C500B3E2-57C8-4342-AB46-833810A52E41}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{A3C5B2D8-E5D6-4FA4-B850-3C4F1AE116FA} = {DFFF8484-EA86-49F4-90A5-2891646F1A62}
+		{C500B3E2-57C8-4342-AB46-833810A52E41} = {9330F00A-551B-4FCE-A829-69A45173FC16}
 	EndGlobalSection
 EndGlobal

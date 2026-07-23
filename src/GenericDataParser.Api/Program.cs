@@ -4,10 +4,11 @@ using CsvHelper;
 using GenericDataParser.Api.Models;
 using GenericDataParser.Api.Services;
 using Microsoft.AspNetCore.Mvc;
+using CsvParser = GenericDataParser.Api.Services.CsvParser;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddSingleton<IDataParser, GenericDataParser.Api.Services.CsvParser>();
+builder.Services.AddSingleton<IDataParser>(sp => new CsvParser(CsvParserMode.Strict));
 builder.Services.AddSingleton<IDataParser, InternalJsonParser>();
 
 builder.Services.AddSingleton<IParserFactory, ParserFactory>();
