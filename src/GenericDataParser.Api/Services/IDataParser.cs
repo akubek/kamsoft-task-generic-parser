@@ -2,7 +2,8 @@ using GenericDataParser.Api.Models;
 
 namespace GenericDataParser.Api.Services;
 
-public interface IParserFactory
+public interface IDataParser
 {
-    IDataParser GetParser(PayloadType type);
+    PayloadType SupportedType { get; }
+    IEnumerable<object> Parse(string rawContent);
 }
