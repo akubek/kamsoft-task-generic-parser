@@ -4,5 +4,5 @@ public record ParseResultResponse(
     string Status,
     string SourceType,
     int ProcessedItemsCount,
-    IEnumerable Data
-)
+    IEnumerable<object> Data
+);
