@@ -1,14 +1,15 @@
 # Generic Data Parser API
 
-Prosty endpoint Minimal API do dekodowania payloadu Base64 i parsowania danych typu CSV lub INTERNAL_JSON.
+Minimal API do dekodowania payloadu Base64 i parsowania danych typu CSV lub INTERNAL_JSON.  
 Repozytorium zawiera rozwiązanie zadania rekrutacyjnego dla firmy Kamsoft.
 
-## Założenia zadania
+## Endpoint
 
 - Technologia: .NET 8, C#.
-- Endpoint: POST /api/v1/parse-content.
-- Wejście: application/json.
-- Payload:
+- Endpoint: `POST /api/v1/parse-content`.
+- Wejście: `application/json`.
+
+Payload:
 
 ```json
 {
@@ -19,9 +20,9 @@ Repozytorium zawiera rozwiązanie zadania rekrutacyjnego dla firmy Kamsoft.
 
 ## Co robi endpoint
 
-1. Sprawdza poprawność requestu i pola content.
-2. Dekoduje content z Base64.
-3. Wybiera parser na podstawie type (factory + DI).
+1. Sprawdza poprawność requestu i pola `content`.
+2. Dekoduje `content` z Base64.
+3. Wybiera parser na podstawie `type` przy użyciu factory i DI.
 4. Parsuje dane i zwraca ujednoliconą odpowiedź.
 
 Przykładowa odpowiedź sukcesu:
@@ -37,6 +38,13 @@ Przykładowa odpowiedź sukcesu:
     ]
 }
 ```
+
+## Swagger i logowanie
+
+- Swagger jest dostępny pod `/swagger`.
+- Endpoint ma opis w Swagger UI, więc można szybko sprawdzić request i response.
+- Nieprzewidziane wyjątki są obsługiwane globalnie i zwracane jako `ProblemDetails`.
+- Błędy wejścia są logowane jako ostrzeżenia, co ułatwia diagnozowanie problemów z Base64, CSV, JSON i typem payloadu.
 
 ## Obsługa błędów
 
