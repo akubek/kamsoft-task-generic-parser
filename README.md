@@ -25,6 +25,10 @@ Payload:
 3. Wybiera parser na podstawie `type` przy użyciu factory i DI.
 4. Parsuje dane i zwraca ujednoliconą odpowiedź.
 
+## Przepływ danych
+
+`Request` -> `Base64 Decoder` -> `ParserFactory` -> `IDataParser` -> `CsvParser` / `InternalJsonParser` -> `Unified Response`
+
 Przykładowa odpowiedź sukcesu:
 
 ```json
