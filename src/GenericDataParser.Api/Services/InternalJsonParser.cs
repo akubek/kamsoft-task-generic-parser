@@ -7,6 +7,12 @@ public class InternalJsonParser : IDataParser
 {
     public PayloadType SupportedType => PayloadType.INTERNAL_JSON;
 
+    private static readonly JsonDocumentOptions _jsonDocumentOptions = new ()
+    {
+        AllowTrailingCommas = true,
+        CommentHandling = JsonCommentHandling.Skip,
+    };
+
     private static readonly JsonSerializerOptions _jsonOptions = new ()
     {
         PropertyNameCaseInsensitive = true,
@@ -16,7 +22,7 @@ public class InternalJsonParser : IDataParser
 
     public IEnumerable<object> Parse(string rawContent)
     {
-        using var document = JsonDocument.Parse(rawContent);
+        using var document = JsonDocument.Parse(rawContent, _jsonDocumentOptions);
 
         if (document.RootElement.ValueKind == JsonValueKind.Array)
         {

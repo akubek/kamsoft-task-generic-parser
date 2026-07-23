@@ -1,14 +1,13 @@
 using CsvHelper;
-
 namespace GenericDataParser.Api.Tests.Services;
 
-public class CsvStrictParserTests
+public class CsvLaxParserTests
 {
     private readonly CsvParser _parser;
 
-    public CsvStrictParserTests()
+    public CsvLaxParserTests()
     {
-        _parser = new CsvParser(CsvParserMode.Strict);
+        _parser = new CsvParser(CsvParserMode.Lax);
     }
 
     [Fact]
@@ -62,19 +61,29 @@ public class CsvStrictParserTests
     }
 
     [Fact]
-    public void Parse_WhenRowHasFewerFieldsThanHeader_ShouldThrowMissingFieldException()
+    public void Parse_WhenRowHasFewerFieldsThanHeader_ShouldNotThrowAndShouldSetMissingValueToNull()
     {
         var csvWithMissingField = "Id,Name\n1";
 
-        Assert.ThrowsAny<CsvHelperException>(() => _parser.Parse(csvWithMissingField));
+        var result = _parser.Parse(csvWithMissingField).ToList();
+
+        Assert.Single(result);
+        var firstItem = (IDictionary<string, object>)result[0];
+        Assert.Equal("1", firstItem["Id"]);
+        Assert.Null(firstItem["Name"]);
     }
 
     [Fact]
-    public void Parse_WhenRowHasMoreFieldsThanHeader_ShouldThrowInconsistentColumnCountException()
+    public void Parse_WhenRowHasMoreFieldsThanHeader_ShouldNotThrowAndShouldIgnoreExtraData()
     {
         var csvWithExtraField = "Id,Name\n1,\"Artur,\", ExtraText";
 
-        Assert.ThrowsAny<CsvHelperException>(() => _parser.Parse(csvWithExtraField));
+        var result = _parser.Parse(csvWithExtraField).ToList();
+
+        Assert.Single(result);
+        var firstItem = (IDictionary<string, object>)result[0];
+        Assert.Equal("1", firstItem["Id"]);
+        Assert.Equal("Artur,", firstItem["Name"]);
     }
 
     [Fact]
@@ -107,11 +116,26 @@ public class CsvStrictParserTests
     }
 
     [Fact]
-    public void Parse_WhenRowsAreMixed_ShouldThrowCsvHelperException()
+    public void Parse_WhenRowsAreMixed_ShouldNotThrowAndShouldParseKnownColumns()
     {
         var mixedRowsCsv = "Id,Name\n1,Artur\n2\n3,Test,ExtraText";
 
-        Assert.ThrowsAny<CsvHelperException>(() => _parser.Parse(mixedRowsCsv));
+        var result = _parser.Parse(mixedRowsCsv).ToList();
+
+        Assert.Equal(3, result.Count);
+
+        var firstItem = (IDictionary<string, object>)result[0];
+        var secondItem = (IDictionary<string, object>)result[1];
+        var thirdItem = (IDictionary<string, object>)result[2];
+
+        Assert.Equal("1", firstItem["Id"]);
+        Assert.Equal("Artur", firstItem["Name"]);
+
+        Assert.Equal("2", secondItem["Id"]);
+        Assert.Null(secondItem["Name"]);
+
+        Assert.Equal("3", thirdItem["Id"]);
+        Assert.Equal("Test", thirdItem["Name"]);
     }
 
     [Fact]
