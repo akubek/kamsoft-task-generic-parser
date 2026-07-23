@@ -1,4 +1,4 @@
-namespace GenericDataParser.Api.Services;
+namespace GenericDataParser.Api.Models;
 
 public enum CsvParserMode
 {

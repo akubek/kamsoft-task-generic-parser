@@ -1,3 +1,4 @@
+using GenericDataParser.Api.Models;
 using GenericDataParser.Api.Services;
 using GenericDataParser.Api.Endpoints;
 using Microsoft.AspNetCore.Mvc;
