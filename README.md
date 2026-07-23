@@ -113,6 +113,11 @@ Uruchomienie tylko testów integracyjnych endpointu:
 dotnet test --filter "FullyQualifiedName~ParseContentEndpointIntegrationTests"
 ```
 
+Środowisko testowe:
+
+- Projekt został uruchomiony i przetestowany lokalnie na Linux.
+- Aplikacja powinna działać również na Windows i macOS (brak zależności systemowo-specyficznych).
+
 ## Autor
 
 Artur Kubek
