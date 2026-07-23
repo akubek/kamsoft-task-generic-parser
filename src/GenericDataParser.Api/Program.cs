@@ -87,3 +87,7 @@ app.MapPost("/api/v1/parse-content", (
 });
 
 app.Run();
+
+public partial class Program
+{
+}
