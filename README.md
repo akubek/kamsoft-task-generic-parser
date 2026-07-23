@@ -11,7 +11,7 @@ Repozytorium zawiera rozwiązanie zadania rekrutacyjnego dla firmy Kamsoft.
 
 Payload:
 
-```json
+```text
 {
     "type": "CSV" | "INTERNAL_JSON",
     "content": "<base64>"
